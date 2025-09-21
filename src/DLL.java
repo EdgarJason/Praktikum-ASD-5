@@ -176,4 +176,86 @@ public class DLL<T> {
         }
         System.out.println(" ], Ukuran: " + size());
     }
+
+    //untuk kelas MAHASISWA
+    public void addSorted(T data) {
+        if (!(data instanceof Mahasiswa)) {
+            System.out.println("Data yang dimasukkan harus berupa objek Mahasiswa.");
+            return;
+        }
+
+        Mahasiswa mhsInput = (Mahasiswa) data;
+        Node<T> newNode = new Node<>(data);
+
+        if (isEmpty()) {
+            head = tail = newNode;
+            size++;
+            return;
+        }
+
+        if (mhsInput.getIpk() >= ((Mahasiswa) head.data).getIpk()) {
+            addFirst(data);
+            return;
+        }
+
+        if (mhsInput.getIpk() <= ((Mahasiswa) tail.data).getIpk()) {
+            addLast(data);
+            return;
+        }
+
+        Node<T> current = head;
+        while (mhsInput.getIpk() < ((Mahasiswa) current.data).getIpk()) {
+            current = current.next;
+        }
+
+        Node<T> before = current.prev;
+        before.next = newNode;
+        newNode.prev = before;
+        newNode.next = current;
+        current.prev = newNode;
+        size++;
+    }
+
+    public void displayDESC() {
+        System.out.println("--------------------------------------");
+        System.out.println("Data Mahasiswa (Urutan IPK Descending)");
+        System.out.println("--------------------------------------");
+
+        if (isEmpty()) {
+            System.out.println("List masih kosong.");
+            return;
+        }
+
+        Node<T> current = head;
+        int urutan = 1;
+        while (current != null) {
+            Mahasiswa mhs = (Mahasiswa) current.data;
+            System.out.println(urutan + ". " + mhs.toString());
+            current = current.next;
+            urutan++;
+        }
+        System.out.println();
+    }
+
+    public void displayASC() {
+        System.out.println("------------------------------------");
+        System.out.println("Data Mahasiswa (Urutan IPK Ascending)");
+        System.out.println("------------------------------------");
+
+        if (isEmpty()) {
+            System.out.println("List masih kosong.");
+            return;
+        }
+
+        Node<T> current = tail;
+        int urutan = 1;
+        while (current != null) {
+            Mahasiswa mhs = (Mahasiswa) current.data;
+            System.out.println(urutan + ". " + mhs.toString());
+            current = current.prev;
+            urutan++;
+        }
+        System.out.println();
+    }
+
 }
